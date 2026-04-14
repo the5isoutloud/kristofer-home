@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Travel Availability</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body
+    class="text-light"
+    style="
+      background-color: #212529;
+      font-family:
+        &quot;SFMono-Regular&quot;, Menlo, Monaco, Consolas,
+        &quot;Liberation Mono&quot;, &quot;Courier New&quot;, monospace;
+    "
+  >
+    <main
+      class="container min-vh-100 d-flex align-items-center justify-content-center py-5"
+    >
+      <div class="row justify-content-center w-100">
+        <div class="col-12 col-lg-8">
+          <section class="text-center" aria-label="Availability">
+            <h1 class="display-5 mb-4">Is Kristofer In Town?</h1>
+            <div class="display-1 fw-bold" id="availability">Loading...</div>
+            <p class="lead mt-3 mb-0" id="details">
+              Checking current Denver date...
+            </p>
+            <div class="mt-4 d-none" id="upcoming"></div>
+            <div class="mt-3 text-danger d-none" id="error" role="alert"></div>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const availabilityElement = document.getElementById("availability");
+      const detailsElement = document.getElementById("details");
+      const upcomingElement = document.getElementById("upcoming");
+      const errorElement = document.getElementById("error");
+
+      const denverDateFormatter = new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Denver",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+
+      const denverLongFormatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: "America/Denver",
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+
+      function getDenverDateKey(date) {
+        return denverDateFormatter.format(date);
+      }
+
+      function formatTripDate(dateString) {
+        const parts = dateString.split("-");
+        const year = Number(parts[0]);
+        const month = Number(parts[1]) - 1;
+        const day = Number(parts[2]);
+        const utcDate = new Date(Date.UTC(year, month, day, 12, 0, 0));
+
+        return new Intl.DateTimeFormat("en-US", {
+          timeZone: "America/Denver",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }).format(utcDate);
+      }
+
+      function setAvailability(isAvailable, detailsText) {
+        availabilityElement.textContent = isAvailable ? "Yes" : "No";
+        availabilityElement.className = isAvailable
+          ? "display-1 fw-bold mb-3 text-success"
+          : "display-1 fw-bold mb-3 text-danger";
+        detailsElement.textContent = detailsText;
+        detailsElement.className = "lead mt-3 mb-0";
+        detailsElement.style.color = isAvailable
+          ? "rgba(255, 255, 255, 0.6)"
+          : "";
+      }
+
+      function getUpcomingTrips(trips, todayKey) {
+        return trips.filter(
+          (trip) => trip.startDate && trip.startDate > todayKey,
+        );
+      }
+
+      function renderUpcomingTrips(trips) {
+        if (trips.length === 0) {
+          upcomingElement.innerHTML =
+            '<p class="mb-0 text-start" style="color: rgba(255, 255, 255, 0.6);">No upcoming travel dates.</p>';
+          upcomingElement.className = "mt-4";
+          return;
+        }
+
+        const items = trips
+          .map((trip) => {
+            const city = trip.city ? " - " + trip.city : "";
+            return (
+              '<li class="mb-2">&bull; ' +
+              formatTripDate(trip.startDate) +
+              " to " +
+              formatTripDate(trip.endDate) +
+              city +
+              "</li>"
+            );
+          })
+          .join("");
+
+        upcomingElement.innerHTML =
+          '<div class="mx-auto text-start d-inline-block"><p class="mb-2 fw-semibold text-white">Upcoming travel dates</p><ul class="list-unstyled mb-0" style="color: rgba(255, 255, 255, 0.6);">' +
+          items +
+          "</ul></div>";
+        upcomingElement.className = "mt-4";
+      }
+
+      function findCurrentTrip(trips, todayKey) {
+        return trips.find((trip) => {
+          if (!trip.startDate || !trip.endDate) {
+            return false;
+          }
+
+          return todayKey >= trip.startDate && todayKey <= trip.endDate;
+        });
+      }
+
+      function evaluateTrips(data) {
+        const trips = Array.isArray(data.trips) ? data.trips : [];
+        const now = new Date();
+        const todayKey = getDenverDateKey(now);
+        const upcomingTrips = getUpcomingTrips(trips, todayKey);
+
+        errorElement.textContent = "";
+        errorElement.className = "mt-3 text-danger d-none";
+        upcomingElement.innerHTML = "";
+
+        const currentTrip = findCurrentTrip(trips, todayKey);
+
+        if (currentTrip) {
+          setAvailability(false, currentTrip.city || "Away");
+          renderUpcomingTrips(upcomingTrips);
+          return;
+        }
+
+        setAvailability(true, "Kristofer is home!");
+        renderUpcomingTrips(upcomingTrips);
+      }
+
+      async function loadTripsFromFile() {
+        try {
+          const response = await fetch("./trips.json", { cache: "no-store" });
+
+          if (!response.ok) {
+            throw new Error("Unable to load trips.json");
+          }
+
+          const data = await response.json();
+          evaluateTrips(data);
+        } catch (error) {
+          availabilityElement.textContent = "Error";
+          availabilityElement.className = "display-1 fw-bold mb-3 text-danger";
+          detailsElement.className = "lead mt-3 mb-0 d-none";
+          upcomingElement.className = "mt-4 d-none";
+          errorElement.innerHTML =
+            "<strong>Problem:</strong> " +
+            error.message +
+            ". Make sure <code>trips.json</code> is next to this page and contains a top-level <code>trips</code> array.";
+          errorElement.className = "mt-3 text-danger";
+        }
+      }
+
+      loadTripsFromFile();
+    </script>
+  </body>
+</html>

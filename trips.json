@@ -1,0 +1,22 @@
+{
+  "trips": [
+    {
+      "trip": "Washington, DC Trip",
+      "city": "Washington, DC",
+      "startDate": "2026-04-15",
+      "endDate": "2026-04-19"
+    },
+    {
+      "trip": "Nashville Trip",
+      "city": "Nashville, TN",
+      "startDate": "2026-04-21",
+      "endDate": "2026-04-26"
+    },
+    {
+      "trip": "Boston Trip",
+      "city": "Boston, MA",
+      "startDate": "2026-05-01",
+      "endDate": "2026-05-08"
+    }
+  ]
+}
