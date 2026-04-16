@@ -38,11 +38,49 @@
       </div>
     </main>
 
+    <script id="trip-data" type="application/json">
+      {
+        "trips": [
+          {
+            "trip": "Washington Trip",
+            "segments": [
+              {
+                "city": "Washington, DC",
+                "startDate": "2026-04-15",
+                "endDate": "2026-04-19"
+              }
+            ]
+          },
+          {
+            "trip": "Nashville Trip",
+            "segments": [
+              {
+                "city": "Nashville, TN",
+                "startDate": "2026-04-21",
+                "endDate": "2026-04-26"
+              }
+            ]
+          },
+          {
+            "trip": "Boston Trip",
+            "segments": [
+              {
+                "city": "Boston, MA",
+                "startDate": "2026-05-01",
+                "endDate": "2026-05-08"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+
     <script>
       const availabilityElement = document.getElementById("availability");
       const detailsElement = document.getElementById("details");
       const upcomingElement = document.getElementById("upcoming");
       const errorElement = document.getElementById("error");
+      const tripDataElement = document.getElementById("trip-data");
 
       const denverDateFormatter = new Intl.DateTimeFormat("en-CA", {
         timeZone: "America/Denver",
@@ -78,40 +116,71 @@
         }).format(utcDate);
       }
 
-      function setAvailability(isAvailable, detailsText) {
-        availabilityElement.textContent = isAvailable ? "Yes" : "No";
-        availabilityElement.className = isAvailable
-          ? "display-1 fw-bold mb-3 text-success"
-          : "display-1 fw-bold mb-3 text-danger";
+      function setAvailability(status, detailsText) {
+        if (status === "yes") {
+          availabilityElement.textContent = "Yes";
+          availabilityElement.className = "display-1 fw-bold mb-3 text-success";
+        } else if (status === "nearly") {
+          availabilityElement.textContent = "Maybe";
+          availabilityElement.className = "display-1 fw-bold mb-3 text-warning";
+        } else {
+          availabilityElement.textContent = "No";
+          availabilityElement.className = "display-1 fw-bold mb-3 text-danger";
+        }
+
         detailsElement.textContent = detailsText;
         detailsElement.className = "lead mt-3 mb-0";
-        detailsElement.style.color = isAvailable
-          ? "rgba(255, 255, 255, 0.6)"
-          : "";
+        detailsElement.style.color = status === "yes" ? "rgba(255, 255, 255, 0.6)" : "";
       }
 
-      function getUpcomingTrips(trips, todayKey) {
-        return trips.filter(
-          (trip) => trip.startDate && trip.startDate > todayKey,
+      function getTripSegments(trips) {
+        return trips.flatMap((trip) => {
+          if (Array.isArray(trip.segments) && trip.segments.length > 0) {
+            return trip.segments.map((segment) => ({
+              trip: trip.trip,
+              city: segment.city,
+              startDate: segment.startDate,
+              endDate: segment.endDate,
+            }));
+          }
+
+          if (trip.startDate && trip.endDate) {
+            return [
+              {
+                trip: trip.trip,
+                city: trip.city,
+                startDate: trip.startDate,
+                endDate: trip.endDate,
+              },
+            ];
+          }
+
+          return [];
+        });
+      }
+
+      function getUpcomingTrips(segments, todayKey) {
+        return segments.filter(
+          (segment) => segment.startDate && segment.startDate > todayKey,
         );
       }
 
-      function renderUpcomingTrips(trips) {
-        if (trips.length === 0) {
+      function renderUpcomingTrips(segments) {
+        if (segments.length === 0) {
           upcomingElement.innerHTML =
             '<p class="mb-0 text-start" style="color: rgba(255, 255, 255, 0.6);">No upcoming travel dates.</p>';
           upcomingElement.className = "mt-4";
           return;
         }
 
-        const items = trips
-          .map((trip) => {
-            const city = trip.city ? " - " + trip.city : "";
+        const items = segments
+          .map((segment) => {
+            const city = segment.city ? " - " + segment.city : "";
             return (
               '<li class="mb-2">&bull; ' +
-              formatTripDate(trip.startDate) +
+              formatTripDate(segment.startDate) +
               " to " +
-              formatTripDate(trip.endDate) +
+              formatTripDate(segment.endDate) +
               city +
               "</li>"
             );
@@ -125,47 +194,70 @@
         upcomingElement.className = "mt-4";
       }
 
-      function findCurrentTrip(trips, todayKey) {
-        return trips.find((trip) => {
-          if (!trip.startDate || !trip.endDate) {
+      function findCurrentTrip(segments, todayKey) {
+        return segments.find((segment) => {
+          if (!segment.startDate || !segment.endDate) {
             return false;
           }
 
-          return todayKey >= trip.startDate && todayKey <= trip.endDate;
+          return todayKey >= segment.startDate && todayKey <= segment.endDate;
         });
+      }
+
+      function getTripStatus(trip, todayKey) {
+        if (!trip) {
+          return "home";
+        }
+
+        if (todayKey === trip.startDate) {
+          return "departure";
+        }
+
+        if (todayKey === trip.endDate) {
+          return "return";
+        }
+
+        return "away";
       }
 
       function evaluateTrips(data) {
         const trips = Array.isArray(data.trips) ? data.trips : [];
+        const segments = getTripSegments(trips);
         const now = new Date();
         const todayKey = getDenverDateKey(now);
-        const upcomingTrips = getUpcomingTrips(trips, todayKey);
+        const upcomingTrips = getUpcomingTrips(segments, todayKey);
 
         errorElement.textContent = "";
         errorElement.className = "mt-3 text-danger d-none";
         upcomingElement.innerHTML = "";
 
-        const currentTrip = findCurrentTrip(trips, todayKey);
+        const currentTrip = findCurrentTrip(segments, todayKey);
+        const tripStatus = getTripStatus(currentTrip, todayKey);
 
         if (currentTrip) {
-          setAvailability(false, currentTrip.city || "Away");
+          if (tripStatus === "departure") {
+            setAvailability("no", "Kristofer is traveling to " + (currentTrip.city || "his destination") + " today! 🛫");
+          } else if (tripStatus === "return") {
+            setAvailability("nearly", "Kristofer is traveling home from " + (currentTrip.city || "his trip") + " today!🛬");
+          } else {
+            setAvailability("no", currentTrip.city || "Away");
+          }
+
           renderUpcomingTrips(upcomingTrips);
           return;
         }
 
-        setAvailability(true, "Kristofer is home!");
+        setAvailability("yes", "Kristofer is home!");
         renderUpcomingTrips(upcomingTrips);
       }
 
-      async function loadTripsFromFile() {
+      function loadTripsFromPage() {
         try {
-          const response = await fetch("./trips.json", { cache: "no-store" });
-
-          if (!response.ok) {
-            throw new Error("Unable to load trips.json");
+          if (!tripDataElement) {
+            throw new Error("Embedded trip data was not found");
           }
 
-          const data = await response.json();
+          const data = JSON.parse(tripDataElement.textContent);
           evaluateTrips(data);
         } catch (error) {
           availabilityElement.textContent = "Error";
@@ -175,12 +267,12 @@
           errorElement.innerHTML =
             "<strong>Problem:</strong> " +
             error.message +
-            ". Make sure <code>trips.json</code> is next to this page and contains a top-level <code>trips</code> array.";
+            ". Make sure the embedded trip data contains a top-level <code>trips</code> array.";
           errorElement.className = "mt-3 text-danger";
         }
       }
 
-      loadTripsFromFile();
+      loadTripsFromPage();
     </script>
   </body>
 </html>
