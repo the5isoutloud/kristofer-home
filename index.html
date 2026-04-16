@@ -38,49 +38,11 @@
       </div>
     </main>
 
-    <script id="trip-data" type="application/json">
-      {
-        "trips": [
-          {
-            "trip": "Washington Trip",
-            "segments": [
-              {
-                "city": "Washington, DC",
-                "startDate": "2026-04-15",
-                "endDate": "2026-04-19"
-              }
-            ]
-          },
-          {
-            "trip": "Nashville Trip",
-            "segments": [
-              {
-                "city": "Nashville, TN",
-                "startDate": "2026-04-21",
-                "endDate": "2026-04-26"
-              }
-            ]
-          },
-          {
-            "trip": "Boston Trip",
-            "segments": [
-              {
-                "city": "Boston, MA",
-                "startDate": "2026-05-01",
-                "endDate": "2026-05-08"
-              }
-            ]
-          }
-        ]
-      }
-    </script>
-
     <script>
       const availabilityElement = document.getElementById("availability");
       const detailsElement = document.getElementById("details");
       const upcomingElement = document.getElementById("upcoming");
       const errorElement = document.getElementById("error");
-      const tripDataElement = document.getElementById("trip-data");
 
       const denverDateFormatter = new Intl.DateTimeFormat("en-CA", {
         timeZone: "America/Denver",
@@ -240,7 +202,7 @@
           } else if (tripStatus === "return") {
             setAvailability("nearly", "Kristofer is traveling home from " + (currentTrip.city || "his trip") + " today!🛬");
           } else {
-            setAvailability("no", currentTrip.city || "Away");
+            setAvailability("no", "Kristofer is in " + (currentTrip.city || "town"));
           }
 
           renderUpcomingTrips(upcomingTrips);
@@ -251,13 +213,15 @@
         renderUpcomingTrips(upcomingTrips);
       }
 
-      function loadTripsFromPage() {
+      async function loadTripsFromFile() {
         try {
-          if (!tripDataElement) {
-            throw new Error("Embedded trip data was not found");
+          const response = await fetch("./trips.json", { cache: "no-store" });
+
+          if (!response.ok) {
+            throw new Error("Unable to load trips.json");
           }
 
-          const data = JSON.parse(tripDataElement.textContent);
+          const data = await response.json();
           evaluateTrips(data);
         } catch (error) {
           availabilityElement.textContent = "Error";
@@ -267,12 +231,12 @@
           errorElement.innerHTML =
             "<strong>Problem:</strong> " +
             error.message +
-            ". Make sure the embedded trip data contains a top-level <code>trips</code> array.";
+            ". Make sure <code>trips.json</code> is next to this page and contains a top-level <code>trips</code> array.";
           errorElement.className = "mt-3 text-danger";
         }
       }
 
-      loadTripsFromPage();
+      loadTripsFromFile();
     </script>
   </body>
 </html>
