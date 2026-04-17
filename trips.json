@@ -29,6 +29,36 @@
           "endDate": "2026-05-08"
         }
       ]
+    },
+    {
+      "trip": "Austin Trip",
+      "segments": [
+        {
+          "city": "Austin, TX",
+          "startDate": "2026-05-15",
+          "endDate": "2026-05-21"
+        }
+      ]
+    },
+    {
+      "trip": "Nashvile June Trip",
+      "segments": [
+        {
+          "city": "Nashville, TN",
+          "startDate": "2026-06-27",
+          "endDate": "2026-07-03"
+        }
+      ]
+    },
+    {
+      "trip": "San Diego Trip",
+      "segments": [
+        {
+          "city": "San Diego, CA",
+          "startDate": "2026-07-06",
+          "endDate": "2026-07-13"
+        }
+      ]
     }
   ]
 }
