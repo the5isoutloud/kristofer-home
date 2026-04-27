@@ -59,6 +59,16 @@
           "endDate": "2026-07-13"
         }
       ]
+    },
+    {
+      "trip": "Hollywood Florida Trip",
+      "segments": [
+        {
+          "city": "Hollywood, FL",
+          "startDate": "2026-07-21",
+          "endDate": "2026-07-27"
+        }
+      ]
     }
   ]
 }
