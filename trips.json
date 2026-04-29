@@ -1,7 +1,52 @@
 {
   "trips": [
     {
+      "trip": "San Diego January",
+      "milesFlown": 1706,
+      "segments": [
+        {
+          "city": "San Diego, CA",
+          "startDate": "2026-01-13",
+          "endDate": "2026-01-19"
+        }
+      ]
+    },
+    {
+      "trip": "Puerto Rico",
+      "milesFlown": 5466,
+      "segments": [
+        {
+          "city": "San Juan, PR",
+          "startDate": "2026-02-4",
+          "endDate": "2026-02-12"
+        }
+      ]
+    },
+    {
+      "trip": "San Diego March",
+      "milesFlown": 1706,
+      "segments": [
+        {
+          "city": "San Diego, CA",
+          "startDate": "2026-03-19",
+          "endDate": "2026-03-26"
+        }
+      ]
+    },
+    {
+      "trip": "Utah",
+      "milesFlown": 789,
+      "segments": [
+        {
+          "city": "Utah",
+          "startDate": "2026-03-27",
+          "endDate": "2026-04-03"
+        }
+      ]
+    },
+    {
       "trip": "Washington Trip",
+      "milesFlown": 2952,
       "segments": [
         {
           "city": "Washington, DC",
@@ -12,6 +57,7 @@
     },
     {
       "trip": "Nashville Trip",
+      "milesFlown": 2027,
       "segments": [
         {
           "city": "Nashville, TN",
@@ -22,6 +68,7 @@
     },
     {
       "trip": "Boston Trip",
+      "milesFlown": 3508,
       "segments": [
         {
           "city": "Boston, MA",
@@ -32,6 +79,7 @@
     },
     {
       "trip": "Austin Trip",
+      "milesFlown": 1550,
       "segments": [
         {
           "city": "Austin, TX",
@@ -42,6 +90,7 @@
     },
     {
       "trip": "Nashvile June Trip",
+      "milesFlown": 2027,
       "segments": [
         {
           "city": "Nashville, TN",
@@ -52,6 +101,7 @@
     },
     {
       "trip": "San Diego Trip",
+      "milesFlown": 1706,
       "segments": [
         {
           "city": "San Diego, CA",
@@ -62,11 +112,89 @@
     },
     {
       "trip": "Hollywood Florida Trip",
+      "milesFlown": 3406,
       "segments": [
         {
           "city": "Hollywood, FL",
           "startDate": "2026-07-21",
           "endDate": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "trip": "Kansas City Trip",
+      "milesFlown": 1066,
+      "segments": [
+        {
+          "city": "Kansas City, MO",
+          "startDate": "2026-08-03",
+          "endDate": "2026-08-07"
+        }
+      ]
+    },
+    {
+      "trip": "Columbus Trip",
+      "milesFlown": 2308,
+      "segments": [
+        {
+          "city": "Columbus, OH",
+          "startDate": "2026-08-08",
+          "endDate": "2026-08-16"
+        }
+      ]
+    },
+    {
+      "trip": "Rauleigh NC Trip",
+      "milesFlown": 2873,
+      "segments": [
+        {
+          "city": "Raleigh, NC",
+          "startDate": "2026-09-03",
+          "endDate": "2026-09-17"
+        }
+      ]
+    },
+    {
+      "trip": "Columbus Trip 2",
+      "milesFlown": 2308,
+      "segments": [
+        {
+          "city": "Columbus, OH",
+          "startDate": "2026-10-10",
+          "endDate": "2026-10-16"
+        }
+      ]
+    },
+    {
+      "trip": "Chicago Trip",
+      "milesFlown": 1777,
+      "segments": [
+        {
+          "city": "Chicago, IL",
+          "startDate": "2026-10-24",
+          "endDate": "2026-11-01"
+        }
+      ]
+    },
+    {
+      "trip": "Dallas 1",
+      "milesFlown": 1282,
+      "segments": [
+        {
+          "city": "Dallas, TX",
+          "startDate": "2026-11-03",
+          "endDate": "2026-11-09"
+        }
+      ]
+    },
+    {
+      "trip": "Dallas 2",
+      "milesFlown": 1282,
+      "segments": [
+        {
+          "city": "Dallas, TX",
+          "startDate": "2026-11-10",
+          "endDate": "2026-11-18"
         }
       ]
     }
