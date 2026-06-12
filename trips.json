@@ -89,12 +89,12 @@
       ]
     },
     {
-      "trip": "Nashvile June Trip",
+      "trip": "Nashville June Trip",
       "milesFlown": 2027,
       "segments": [
         {
           "city": "Nashville, TN",
-          "startDate": "2026-06-27",
+          "startDate": "2026-06-26",
           "endDate": "2026-07-03"
         }
       ]
@@ -118,17 +118,6 @@
           "city": "Hollywood, FL",
           "startDate": "2026-07-21",
           "endDate": "2026-07-27"
-        }
-      ]
-    },
-    {
-      "trip": "Kansas City Trip",
-      "milesFlown": 1066,
-      "segments": [
-        {
-          "city": "Kansas City, MO",
-          "startDate": "2026-08-03",
-          "endDate": "2026-08-07"
         }
       ]
     },
