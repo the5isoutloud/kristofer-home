@@ -119,13 +119,16 @@
 
       function setAvailability(status, detailsText) {
         if (status === "yes") {
-          availabilityElement.textContent = "Yes";
+          availabilityElement.textContent = "🥳 Yes 🥳";
           availabilityElement.className = "display-1 fw-bold mb-3 text-success";
         } else if (status === "nearly") {
-          availabilityElement.textContent = "Maybe";
+          availabilityElement.textContent = "🤔 Maybe 🤔";
+          availabilityElement.className = "display-1 fw-bold mb-3 text-warning";
+        } else if (status === "kindof") {
+          availabilityElement.textContent = "🙃 Kind of!? 🙃";
           availabilityElement.className = "display-1 fw-bold mb-3 text-warning";
         } else {
-          availabilityElement.textContent = "No";
+          availabilityElement.textContent = "😭 No 😭";
           availabilityElement.className = "display-1 fw-bold mb-3 text-danger";
         }
 
@@ -378,6 +381,11 @@
               "Kristofer is traveling home from " +
                 (currentTrip.city || "his trip") +
                 " today!🛬",
+            );
+          } else if (currentTrip.city === "Denver, CO") {
+            setAvailability(
+              "kindof",
+              "Kristofer is in Denver, but he's staying at a hotel in town.",
             );
           } else {
             setAvailability(
