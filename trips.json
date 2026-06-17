@@ -144,6 +144,28 @@
       ]
     },
     {
+      "trip": "Denver Trip 1",
+      "milesFlown": 0,
+      "segments": [
+        {
+          "city": "Denver, CO",
+          "startDate": "2026-09-22",
+          "endDate": "2026-09-28"
+        }
+      ]
+    },
+    {
+      "trip": "Denver Trip 2",
+      "milesFlown": 0,
+      "segments": [
+        {
+          "city": "Denver, CO",
+          "startDate": "2026-10-02",
+          "endDate": "2026-10-08"
+        }
+      ]
+    },
+    {
       "trip": "Columbus Trip 2",
       "milesFlown": 2308,
       "segments": [
