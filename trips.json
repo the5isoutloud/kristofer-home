@@ -111,13 +111,13 @@
       ]
     },
     {
-      "trip": "Hollywood Florida Trip",
+      "trip": "SRS",
       "milesFlown": 3406,
       "segments": [
         {
           "city": "Hollywood, FL",
           "startDate": "2026-07-20",
-          "endDate": "2026-07-27"
+          "endDate": "2026-07-26"
         }
       ]
     },
@@ -128,56 +128,34 @@
         {
           "city": "Columbus, OH",
           "startDate": "2026-08-09",
-          "endDate": "2026-08-16"
+          "endDate": "2026-08-15"
         }
       ]
     },
     {
-      "trip": "Rauleigh NC Trip",
-      "milesFlown": 2873,
-      "segments": [
-        {
-          "city": "Raleigh, NC",
-          "startDate": "2026-09-11",
-          "endDate": "2026-09-20"
-        }
-      ]
-    },
-    {
-      "trip": "Denver Trip 1",
+      "trip": "Rockville Maryland",
       "milesFlown": 0,
       "segments": [
         {
-          "city": "Denver, CO",
+          "city": "Rockville, MD",
           "startDate": "2026-09-22",
           "endDate": "2026-09-28"
         }
       ]
     },
     {
-      "trip": "Denver Trip 2",
+      "trip": "SMSNA",
       "milesFlown": 0,
       "segments": [
         {
-          "city": "Denver, CO",
-          "startDate": "2026-10-02",
-          "endDate": "2026-10-08"
+          "city": "Orlando, FL",
+          "startDate": "2026-10-06",
+          "endDate": "2026-10-12"
         }
       ]
     },
     {
-      "trip": "Columbus Trip 2",
-      "milesFlown": 2308,
-      "segments": [
-        {
-          "city": "Columbus, OH",
-          "startDate": "2026-10-10",
-          "endDate": "2026-10-16"
-        }
-      ]
-    },
-    {
-      "trip": "Chicago Trip",
+      "trip": "ANCC",
       "milesFlown": 1777,
       "segments": [
         {
@@ -188,7 +166,7 @@
       ]
     },
     {
-      "trip": "Dallas 1",
+      "trip": "AAHKS",
       "milesFlown": 1282,
       "segments": [
         {
@@ -199,7 +177,7 @@
       ]
     },
     {
-      "trip": "Dallas 2",
+      "trip": "NAIC Dallas",
       "milesFlown": 1282,
       "segments": [
         {
