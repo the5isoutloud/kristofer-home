@@ -160,7 +160,7 @@
       "segments": [
         {
           "city": "Denver, CO",
-          "startDate":  "2026-10-03",
+          "startDate": "2026-10-03",
           "endDate": "2026-10-05"
         }
       ]
@@ -172,7 +172,7 @@
         {
           "city": "Orlando, FL",
           "startDate": "2026-10-06",
-          "endDate": "2026-10-12",
+          "endDate": "2026-10-12"
         }
       ]
     },
